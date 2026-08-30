@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ModaConnect | Demo Boutique</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">Moda<span>Connect</span></div>
+    <button id="cartBtn" class="cart-btn">🛒 Carrito <b id="cartCount">0</b></button>
+  </header>
+
+  <section class="hero">
+    <div>
+      <p class="eyebrow">DEMO PARA BOUTIQUES</p>
+      <h1>Tu catálogo de moda,<br><strong>directo al WhatsApp.</strong></h1>
+      <p>Explora prendas, consulta disponibilidad y arma tu pedido desde cualquier celular.</p>
+      <a href="#catalogo" class="cta">Ver catálogo</a>
+    </div>
+  </section>
+
+  <main id="catalogo" class="container">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">BOUTIQUE DEMO</p>
+        <h2>Nueva colección</h2>
+      </div>
+      <select id="categoryFilter">
+        <option value="Todos">Todas las categorías</option>
+        <option value="Vestidos">Vestidos</option>
+        <option value="Blusas">Blusas</option>
+        <option value="Pantalones">Pantalones</option>
+        <option value="Accesorios">Accesorios</option>
+      </select>
+    </div>
+    <div id="products" class="grid"></div>
+  </main>
+
+  <aside id="cartPanel" class="cart-panel">
+    <div class="cart-head">
+      <h2>Tu pedido</h2>
+      <button id="closeCart">✕</button>
+    </div>
+    <div id="cartItems"></div>
+    <div class="cart-total"><span>Total</span><strong id="cartTotal">$0</strong></div>
+    <div class="customer">
+      <label>Nombre</label>
+      <input id="customerName" placeholder="Nombre del cliente">
+      <label>Mensaje adicional</label>
+      <textarea id="customerNote" placeholder="Talla, color u otra indicación"></textarea>
+    </div>
+    <button id="whatsappBtn" class="whatsapp">Enviar pedido por WhatsApp</button>
+  </aside>
+  <div id="overlay"></div>
+
+  <footer>ModaConnect · Demo de catálogo digital para boutiques</footer>
+  <script src="script.js"></script>
+</body>
+</html>
