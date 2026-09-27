@@ -2,60 +2,48 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ModaConnect | Demo Boutique</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="ModaConnect: catálogo digital para tiendas de ropa con pedido por WhatsApp.">
+  <title>ModaConnect | Catálogo digital</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header class="topbar">
-    <div class="brand">Moda<span>Connect</span></div>
-    <button id="cartBtn" class="cart-btn">🛒 Carrito <b id="cartCount">0</b></button>
+  <div class="planbar">
+    <div><small>ESTÁS VIENDO</small><strong id="planName">PLAN BÁSICO</strong><span id="planDesc">Hasta 50 prendas · Pedido por WhatsApp</span></div>
+    <div class="plan-switch"><button data-plan="basic" class="active">DEMO BÁSICA</button><button data-plan="premium">DEMO PREMIUM</button></div>
+  </div>
+
+  <header class="nav">
+    <a class="brand" href="#inicio"><span class="brandmark">MC</span><span><b>ModaConnect</b><small>by Marketing Connect</small></span></a>
+    <nav><a href="#catalogo">Catálogo</a><a href="#nosotros">Nosotros</a><a href="#contacto">Contacto</a></nav>
+    <button id="cartBtn" class="bag">Bolsa <b id="cartCount">0</b></button>
   </header>
 
-  <section class="hero">
-    <div>
-      <p class="eyebrow">DEMO PARA BOUTIQUES</p>
-      <h1>Tu catálogo de moda,<br><strong>directo al WhatsApp.</strong></h1>
-      <p>Explora prendas, consulta disponibilidad y arma tu pedido desde cualquier celular.</p>
-      <a href="#catalogo" class="cta">Ver catálogo</a>
-    </div>
-  </section>
+  <main>
+    <section id="inicio" class="hero">
+      <div class="hero-copy"><p class="eyebrow">CATÁLOGO DIGITAL · MODA</p><h1>Tu estilo,<br><em>tu momento.</em></h1><p>Explora prendas, elige talla y color y arma tu pedido desde cualquier dispositivo.</p><a class="cta" href="#catalogo">DESCUBRIR COLECCIÓN →</a><div class="limit" id="limitBadge"><b>50</b><span>PRENDAS MÁXIMO</span></div></div>
+      <div class="hero-image"><div class="hero-placeholder"><span>ModaConnect</span><small>Espacio para imagen principal de la boutique</small></div></div>
+    </section>
 
-  <main id="catalogo" class="container">
-    <div class="section-head">
-      <div>
-        <p class="eyebrow">BOUTIQUE DEMO</p>
-        <h2>Nueva colección</h2>
-      </div>
-      <select id="categoryFilter">
-        <option value="Todos">Todas las categorías</option>
-        <option value="Vestidos">Vestidos</option>
-        <option value="Blusas">Blusas</option>
-        <option value="Pantalones">Pantalones</option>
-        <option value="Accesorios">Accesorios</option>
-      </select>
-    </div>
-    <div id="products" class="grid"></div>
+    <section id="catalogo" class="catalog container">
+      <div class="catalog-head"><div><p class="eyebrow">NUESTRA SELECCIÓN</p><h2>Encuentra tu favorito</h2></div><label class="search">⌕ <input id="search" type="search" placeholder="Buscar prendas"></label></div>
+      <div id="filters" class="filters"></div>
+      <div id="products" class="products"></div>
+    </section>
+
+    <section id="nosotros" class="about container"><p class="eyebrow">MODACONNECT</p><h2>Un catálogo pensado para vender sin complicaciones.</h2><p>ModaConnect permite mostrar productos, variantes y disponibilidad, y convertir la selección del cliente en un pedido listo para enviar por WhatsApp.</p></section>
+    <section id="contacto" class="contact container"><div><p class="eyebrow">MARKETING CONNECT</p><h2>¿Quieres un catálogo para tu negocio?</h2><p>Esta es una demostración. Cada implementación puede personalizarse con la identidad, categorías y productos de la tienda.</p></div><a class="cta" href="https://mkconnect.com.mx">CONOCER MARKETING CONNECT →</a></section>
   </main>
 
-  <aside id="cartPanel" class="cart-panel">
-    <div class="cart-head">
-      <h2>Tu pedido</h2>
-      <button id="closeCart">✕</button>
-    </div>
-    <div id="cartItems"></div>
-    <div class="cart-total"><span>Total</span><strong id="cartTotal">$0</strong></div>
-    <div class="customer">
-      <label>Nombre</label>
-      <input id="customerName" placeholder="Nombre del cliente">
-      <label>Mensaje adicional</label>
-      <textarea id="customerNote" placeholder="Talla, color u otra indicación"></textarea>
-    </div>
-    <button id="whatsappBtn" class="whatsapp">Enviar pedido por WhatsApp</button>
-  </aside>
-  <div id="overlay"></div>
+  <div id="productModal" class="modal hidden"><div class="modal-card"><button class="close" data-close="productModal">×</button><div id="productDetail"></div></div></div>
 
-  <footer>ModaConnect · Demo de catálogo digital para boutiques</footer>
+  <aside id="cartPanel" class="cart-panel">
+    <div class="cart-head"><div><p class="eyebrow" id="cartPlan">PLAN BÁSICO · TU SELECCIÓN</p><h2>Bolsa de compra <small id="cartItemsCount">(0)</small></h2></div><button id="closeCart">×</button></div>
+    <div id="cartItems" class="cart-items"></div>
+    <div class="cart-bottom"><div class="subtotal"><span>Subtotal</span><b id="cartTotal">$0</b></div><p>Existencias y pago se confirman con la tienda.</p><label>Nombre<input id="customerName" placeholder="Nombre del cliente"></label><label>Indicaciones<textarea id="customerNote" placeholder="Alguna indicación para la tienda"></textarea></label><button id="whatsappBtn" class="whatsapp">ENVIAR PEDIDO POR WHATSAPP ↗</button><small>Tu pedido será confirmado por la tienda.</small></div>
+  </aside><div id="overlay"></div>
+
+  <footer><b>ModaConnect</b><span>Catálogo digital para tiendas de ropa · Marketing Connect</span></footer>
   <script src="script.js"></script>
 </body>
 </html>
