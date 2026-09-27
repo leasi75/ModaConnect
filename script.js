@@ -1,40 +1,40 @@
-const products=[
-{id:1,name:"Vestido Aurora",cat:"Vestidos",price:899,emoji:"👗"},
-{id:2,name:"Blusa Siena",cat:"Blusas",price:549,emoji:"👚"},
-{id:3,name:"Pantalón Roma",cat:"Pantalones",price:699,emoji:"👖"},
-{id:4,name:"Vestido Verona",cat:"Vestidos",price:949,emoji:"👗"},
-{id:5,name:"Blusa Milano",cat:"Blusas",price:499,emoji:"👚"},
-{id:6,name:"Pantalón Capri",cat:"Pantalones",price:749,emoji:"👖"},
-{id:7,name:"Bolsa Siena",cat:"Accesorios",price:599,emoji:"👜"},
-{id:8,name:"Lentes Roma",cat:"Accesorios",price:399,emoji:"🕶️"}
-];
-let cart=[];
-const money=n=>n.toLocaleString("es-MX",{style:"currency",currency:"MXN"});
-function renderProducts(){
- const cat=document.getElementById("categoryFilter").value;
- const list=cat==="Todos"?products:products.filter(p=>p.cat===cat);
- document.getElementById("products").innerHTML=list.map(p=>`<article class="card">
- <div class="photo">${p.emoji}</div><div class="info"><div class="category">${p.cat}</div>
- <h3>${p.name}</h3><div class="price">${money(p.price)}</div>
- <button class="add" onclick="add(${p.id})">Agregar al pedido</button></div></article>`).join("");
-}
-function add(id){const p=products.find(x=>x.id===id);const item=cart.find(x=>x.id===id);item?item.qty++:cart.push({...p,qty:1});renderCart();openCart()}
-function change(id,d){const i=cart.findIndex(x=>x.id===id);if(i<0)return;cart[i].qty+=d;if(cart[i].qty<=0)cart.splice(i,1);renderCart()}
-function renderCart(){
- document.getElementById("cartCount").textContent=cart.reduce((s,x)=>s+x.qty,0);
- document.getElementById("cartItems").innerHTML=cart.length?cart.map(x=>`<div class="cart-line"><div><b>${x.name}</b><br>${money(x.price)} × ${x.qty}</div><div class="qty"><button onclick="change(${x.id},-1)">−</button> ${x.qty} <button onclick="change(${x.id},1)">+</button></div></div>`).join(""):"<p>Tu carrito está vacío.</p>";
- document.getElementById("cartTotal").textContent=money(cart.reduce((s,x)=>s+x.price*x.qty,0));
-}
-function openCart(){document.getElementById("cartPanel").classList.add("open");document.getElementById("overlay").classList.add("show")}
-function closeCart(){document.getElementById("cartPanel").classList.remove("open");document.getElementById("overlay").classList.remove("show")}
-document.getElementById("cartBtn").onclick=openCart;document.getElementById("closeCart").onclick=closeCart;document.getElementById("overlay").onclick=closeCart;document.getElementById("categoryFilter").onchange=renderProducts;
-document.getElementById("whatsappBtn").onclick=()=>{
- if(!cart.length)return alert("Agrega al menos una prenda.");
- const name=document.getElementById("customerName").value.trim()||"Cliente";
- const note=document.getElementById("customerNote").value.trim();
- const lines=cart.map(x=>`• ${x.name} x${x.qty} — ${money(x.price*x.qty)}`).join("\n");
- const total=money(cart.reduce((s,x)=>s+x.price*x.qty,0));
- const msg=`Hola, soy ${name}. Quiero realizar este pedido desde ModaConnect:\n\n${lines}\n\nTotal: ${total}${note?`\n\nIndicaciones: ${note}`:""}`;
- window.open("https://wa.me/5210000000000?text="+encodeURIComponent(msg),"_blank");
+const catalog={
+ basic:[
+  {id:'b1',name:'Blazer Siena',cat:'Novedades',price:899,tag:'NUEVO',colors:[['Arena','#cdb08a'],['Negro','#202020']],sizes:[['CH',4],['M',3],['G',2]],desc:'Blazer versátil de corte contemporáneo para combinar en looks casuales o formales.'},
+  {id:'b2',name:'Vestido Aurora',cat:'Vestidos',price:749,tag:'ÚLTIMAS PIEZAS',colors:[['Vino','#7b293d'],['Esmeralda','#315f50']],sizes:[['CH',2],['M',1],['G',0]],desc:'Vestido de silueta elegante pensado para ocasiones especiales.'},
+  {id:'b3',name:'Camisa Lino',cat:'Blusas',price:489,colors:[['Blanco','#eee9df'],['Azul','#9bb6c7']],sizes:[['CH',3],['M',5],['G',2]],desc:'Camisa ligera de estilo limpio y fácil de combinar.'},
+  {id:'b4',name:'Pantalón Roma',cat:'Pantalones',price:699,colors:[['Camel','#a8784e'],['Negro','#202020']],sizes:[['CH',2],['M',4],['G',3]],desc:'Pantalón de corte recto para uso diario.'},
+  {id:'b5',name:'Bolsa Firenze',cat:'Accesorios',price:599,tag:'NUEVO',colors:[['Café','#79533c']],sizes:[['Única',5]],desc:'Accesorio compacto para completar el look.'},
+  {id:'b6',name:'Blusa Milano',cat:'Blusas',price:549,colors:[['Marfil','#e8dfce'],['Negro','#202020']],sizes:[['CH',1],['M',3],['G',2]],desc:'Blusa de líneas sencillas con acabado elegante.'}
+ ],
+ premium:[
+  {id:'p1',name:'Vestido Aurora',cat:'Vestidos',price:749,tag:'ÚLTIMAS PIEZAS',colors:[['Vino','#7b293d'],['Esmeralda','#315f50']],sizesByColor:{Vino:[['CH',2],['M',1],['G',0]],Esmeralda:[['CH',1],['M',3],['G',2]]},desc:'Vestido de silueta elegante con inventario administrado por color y talla.'},
+  {id:'p2',name:'Traje Oxford',cat:'Trajes',price:1899,tag:'NUEVO',colors:[['Negro','#202020'],['Azul Marino','#25364e'],['Gris','#777']],sizesByColor:{Negro:[['30',2],['32',3],['34',0]],'Azul Marino':[['30',1],['32',4],['34',2]],Gris:[['30',0],['32',2],['34',1]]},desc:'Ejemplo Premium con variantes de color y stock independiente por talla.'},
+  {id:'p3',name:'Saco Verona',cat:'Sacos',price:1199,colors:[['Camel','#a8784e'],['Negro','#202020']],sizesByColor:{Camel:[['CH',2],['M',2],['G',1]],Negro:[['CH',1],['M',4],['G',2]]},desc:'Saco con control de existencias por variante.'},
+  {id:'p4',name:'Camisa Lino',cat:'Camisas',price:489,colors:[['Blanco','#eee9df'],['Azul','#9bb6c7']],sizesByColor:{Blanco:[['CH',3],['M',5],['G',2]],Azul:[['CH',2],['M',2],['G',0]]},desc:'Camisa ligera con variantes administrables.'},
+  {id:'p5',name:'Mancuernillas Classic',cat:'Accesorios',price:399,tag:'NUEVO',colors:[['Plata','#aaa']],sizesByColor:{Plata:[['Única',6]]},desc:'Accesorio de talla única con stock controlado.'},
+  {id:'p6',name:'Tela Príncipe de Gales',cat:'Telas',price:null,gallery:true,colors:[['Gris','#777']],sizesByColor:{Gris:[['Muestra',1]]},desc:'Muestrario Premium. Esta categoría funciona como galería y no se agrega a la bolsa.'}
+ ]
 };
-renderProducts();renderCart();
+let plan='basic',filter='Todos',query='',cart=[];
+const $=s=>document.querySelector(s), money=n=>Number(n).toLocaleString('es-MX',{style:'currency',currency:'MXN',maximumFractionDigits:0});
+const products=()=>catalog[plan];
+function sizesFor(p,color){return p.sizesByColor?p.sizesByColor[color]||[]:p.sizes||[]}
+function totalStock(p){const groups=p.sizesByColor?Object.values(p.sizesByColor):[p.sizes||[]];return groups.flat().reduce((a,x)=>a+Number(x[1]||0),0)}
+function renderFilters(){const cats=['Todos',...new Set(products().map(p=>p.cat))];$('#filters').innerHTML=cats.map(c=>`<button class="${c===filter?'active':''}" onclick="setFilter('${c}')">${c}</button>`).join('')}
+function setFilter(c){filter=c;renderFilters();renderProducts()}
+function renderProducts(){const list=products().filter(p=>(filter==='Todos'||p.cat===filter)&&(`${p.name} ${p.cat}`).toLowerCase().includes(query));$('#products').innerHTML=list.map(p=>`<article class="card"><div class="product-photo" onclick="openProduct('${p.id}')">${p.tag?`<span class="tag">${p.tag}</span>`:''}<div class="placeholder">${p.name}<br><small>Fotografía demostrativa</small></div><button class="choose">${p.gallery?'VER MUESTRARIO':'ELEGIR OPCIONES'}</button></div><div class="card-info"><div class="card-meta"><div><span class="cat">${p.cat}</span><h3>${p.name}</h3></div>${p.price?`<span class="price">${money(p.price)}</span>`:''}</div><div class="swatches">${p.colors.map(c=>`<span class="swatch" title="${c[0]}" style="background:${c[1]}"></span>`).join('')}<small>${p.colors.length} color${p.colors.length===1?'':'es'}</small></div></div></article>`).join('')||'<p>No encontramos productos.</p>'}
+function openProduct(id){const p=products().find(x=>x.id===id);if(!p)return;const color=p.colors[0][0],sizes=sizesFor(p,color);$('#productDetail').innerHTML=`<div class="detail"><div class="detail-photo"><div class="placeholder">${p.name}<br><small>Imagen principal</small></div></div><div class="detail-copy"><p class="eyebrow">${p.cat} · ${plan==='basic'?'PLAN BÁSICO':'PLAN PREMIUM'}</p><h2>${p.name}</h2>${p.price?`<p class="detail-price">${money(p.price)}</p>`:''}<p>${p.desc}</p><p class="option-title">COLOR: <b id="selectedColorLabel">${color}</b></p><div class="color-options">${p.colors.map((c,i)=>`<button class="option ${i===0?'active':''}" style="--c:${c[1]}" onclick="selectColor('${p.id}','${c[0]}',this)"><span class="swatch" style="display:inline-block;background:${c[1]};vertical-align:middle;margin-right:7px"></span>${c[0]}</button>`).join('')}</div>${p.gallery?'<div class="notice">Esta categoría es únicamente de exhibición. Las telas se muestran como muestrario y no se venden desde el catálogo.</div>':`<p class="option-title">TALLA</p><div id="sizeOptions" class="size-options">${sizeButtons(sizes)}</div><div class="notice">${plan==='premium'?'Disponibilidad controlada por variante de color y talla.':'La disponibilidad se confirma con la tienda.'}</div><button id="addDetail" class="add-detail" onclick="addSelected('${p.id}')">AGREGAR A LA BOLSA — ${money(p.price)}</button>`}</div></div>`;$('#productModal').classList.remove('hidden')}
+function sizeButtons(sizes){return sizes.map((s,i)=>`<button class="option size-option ${i===0&&s[1]>0?'active':''}" ${s[1]<=0?'disabled':''} onclick="selectSize(this)">${s[0]}${plan==='premium'?`<small>${s[1]>0?s[1]+' disp.':'Agotado'}</small>`:''}</button>`).join('')}
+function selectColor(id,color,el){const p=products().find(x=>x.id===id);$('#selectedColorLabel').textContent=color;document.querySelectorAll('.color-options .option').forEach(x=>x.classList.remove('active'));el.classList.add('active');$('#sizeOptions').innerHTML=sizeButtons(sizesFor(p,color))}
+function selectSize(el){document.querySelectorAll('.size-options .option').forEach(x=>x.classList.remove('active'));el.classList.add('active')}
+function addSelected(id){const p=products().find(x=>x.id===id),color=$('#selectedColorLabel').textContent,sizeEl=document.querySelector('.size-options .option.active');if(!sizeEl)return alert('Selecciona una talla disponible.');const size=sizeEl.childNodes[0].textContent.trim(),stock=(sizesFor(p,color).find(x=>String(x[0])===size)||[])[1]||0,key=`${plan}-${id}-${color}-${size}`,found=cart.find(x=>x.key===key);if(found){if(found.qty>=stock)return alert('No hay más existencias disponibles en esta variante.');found.qty++}else cart.push({key,id,name:p.name,price:p.price,color,size,stock,qty:1});closeModal();renderCart();openCart()}
+function renderCart(){const count=cart.reduce((a,x)=>a+x.qty,0);$('#cartCount').textContent=count;$('#cartItemsCount').textContent=`(${count})`;$('#cartItems').innerHTML=cart.length?cart.map(x=>`<div class="cart-line"><div class="cart-thumb">${x.name}</div><div><h3>${x.name}</h3><p>${x.color} · Talla ${x.size}</p><b>${money(x.price)}</b><div class="qty"><button onclick="changeQty('${x.key}',-1)">−</button><span>${x.qty}</span><button onclick="changeQty('${x.key}',1)">+</button></div></div><button class="remove" onclick="removeItem('${x.key}')">Eliminar</button></div>`).join(''):'<p>Tu bolsa está vacía.</p>';$('#cartTotal').textContent=money(cart.reduce((a,x)=>a+x.price*x.qty,0))}
+function changeQty(key,d){const x=cart.find(i=>i.key===key);if(!x)return;if(d>0&&x.qty>=x.stock)return alert('Llegaste al máximo disponible.');x.qty+=d;if(x.qty<=0)cart=cart.filter(i=>i.key!==key);renderCart()}
+function removeItem(key){cart=cart.filter(i=>i.key!==key);renderCart()}
+function openCart(){$('#cartPanel').classList.add('open');$('#overlay').classList.add('show')}
+function closeCart(){$('#cartPanel').classList.remove('open');$('#overlay').classList.remove('show')}
+function closeModal(){$('#productModal').classList.add('hidden')}
+function switchPlan(next){plan=next;filter='Todos';query='';cart=[];$('#search').value='';document.querySelectorAll('[data-plan]').forEach(b=>b.classList.toggle('active',b.dataset.plan===plan));$('#planName').textContent=plan==='basic'?'PLAN BÁSICO':'PLAN PREMIUM';$('#planDesc').textContent=plan==='basic'?'Hasta 50 prendas · Pedido por WhatsApp':'Prendas ilimitadas · Inventario avanzado · Administración';$('#cartPlan').textContent=`${plan==='basic'?'PLAN BÁSICO':'PLAN PREMIUM'} · TU SELECCIÓN`;$('#limitBadge').innerHTML=plan==='basic'?'<b>50</b><span>PRENDAS MÁXIMO</span>':'<b>∞</b><span>PRENDAS</span>';renderFilters();renderProducts();renderCart()}
+document.querySelectorAll('[data-plan]').forEach(b=>b.onclick=()=>switchPlan(b.dataset.plan));$('#search').oninput=e=>{query=e.target.value.toLowerCase();renderProducts()};$('#cartBtn').onclick=openCart;$('#closeCart').onclick=closeCart;$('#overlay').onclick=closeCart;document.querySelectorAll('[data-close="productModal"]').forEach(b=>b.onclick=closeModal);$('#productModal').onclick=e=>{if(e.target.id==='productModal')closeModal()};$('#whatsappBtn').onclick=()=>{if(!cart.length)return alert('Agrega al menos una prenda.');const name=$('#customerName').value.trim()||'Cliente',note=$('#customerNote').value.trim(),lines=cart.map(x=>`• ${x.name} — ${x.color}, talla ${x.size} — ${x.qty} × ${money(x.price)}`).join('\n'),total=money(cart.reduce((a,x)=>a+x.price*x.qty,0)),msg=`Hola, soy ${name}. Quiero solicitar este pedido desde la demo de ModaConnect:\n\n${lines}\n\nSubtotal: ${total}${note?`\n\nIndicaciones: ${note}`:''}\n\nPor favor confirmen disponibilidad y forma de pago.`;window.open('https://wa.me/5210000000000?text='+encodeURIComponent(msg),'_blank')};
+renderFilters();renderProducts();renderCart();
