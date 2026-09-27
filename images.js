@@ -1,26 +1,26 @@
-// Fotografías realistas de demostración para ModaConnect.
-// URLs directas de images.unsplash.com para evitar redirecciones de /download.
+// Imágenes locales de demostración para ModaConnect.
+// Se sirven desde el mismo proyecto para evitar dependencias externas.
 const demoImages={
-  b1:'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1000&q=85',
-  b2:'https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=1000&q=85',
-  b3:'https://images.unsplash.com/photo-1603252109303-2751441dd157?auto=format&fit=crop&w=1000&q=85',
-  b4:'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=1000&q=85',
-  b5:'https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=1000&q=85',
-  b6:'https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=1000&q=85',
-  b7:'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1000&q=85',
-  b8:'https://images.unsplash.com/photo-1614252369475-531eba835eb1?auto=format&fit=crop&w=1000&q=85',
-  p1:'https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=1000&q=85',
-  p2:'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1000&q=85',
-  p3:'https://images.unsplash.com/photo-1598808503746-f34c53b9323e?auto=format&fit=crop&w=1000&q=85',
-  p4:'https://images.unsplash.com/photo-1603252109303-2751441dd157?auto=format&fit=crop&w=1000&q=85',
-  p5:'https://images.unsplash.com/photo-1617038220319-276d3cfab638?auto=format&fit=crop&w=1000&q=85',
-  p6:'https://images.unsplash.com/photo-1604335399105-a0c585fd81a1?auto=format&fit=crop&w=1000&q=85',
-  p7:'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1000&q=85',
-  p8:'https://images.unsplash.com/photo-1614252369475-531eba835eb1?auto=format&fit=crop&w=1000&q=85',
-  p9:'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=1000&q=85',
-  p10:'https://images.unsplash.com/photo-1624222247344-550fb60583dc?auto=format&fit=crop&w=1000&q=85'
+  b1:'assets/products/novedades.jpg',
+  b2:'assets/products/vestidos.jpg',
+  b3:'assets/products/camisas.jpg',
+  b4:'assets/products/pantalones.jpg',
+  b5:'assets/products/bolsas.jpg',
+  b6:'assets/products/camisas.jpg',
+  b7:'assets/products/calzado.jpg',
+  b8:'assets/products/calzado.jpg',
+  p1:'assets/products/vestidos.jpg',
+  p2:'assets/products/trajes.jpg',
+  p3:'assets/products/sacos.jpg',
+  p4:'assets/products/camisas.jpg',
+  p5:'assets/products/accesorios.jpg',
+  p6:'assets/products/telas.jpg',
+  p7:'assets/products/calzado.jpg',
+  p8:'assets/products/calzado.jpg',
+  p9:'assets/products/pantalones.jpg',
+  p10:'assets/products/accesorios.jpg'
 };
-const heroImage='https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&w=1800&q=88';
+const heroImage='assets/products/hero.jpg';
 function productImage(p){return demoImages[p.id]||''}
 function imageMarkup(p,detail=false){const img=productImage(p);return img?`<img src="${img}" alt="${p.name}" ${detail?'':'loading="lazy"'} style="width:100%;height:100%;object-fit:cover;display:block" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`:''}
 renderProducts=function(){
